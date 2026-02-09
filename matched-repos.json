@@ -1,0 +1,101 @@
+{
+  "source": "https://www.tbench.ai/leaderboard/terminal-bench/2.0",
+  "entries": [
+    {
+      "rank": 41,
+      "agent": "Terminus 2",
+      "model": "Kimi K2.5",
+      "date": "2026-02-04",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Kimi",
+      "accuracy": 43.2,
+      "error_margin": 2.9,
+      "hf_repo_id": "moonshotai/Kimi-K2.5",
+      "hf_url": "https://huggingface.co/moonshotai/Kimi-K2.5"
+    },
+    {
+      "rank": 54,
+      "agent": "Terminus 2",
+      "model": "Kimi K2 Thinking",
+      "date": "2025-11-11",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Moonshot AI",
+      "accuracy": 35.7,
+      "error_margin": 2.8,
+      "hf_repo_id": "moonshotai/Kimi-K2-Thinking",
+      "hf_url": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+    },
+    {
+      "rank": 61,
+      "agent": "Terminus 2",
+      "model": "GLM 4.7",
+      "date": "2026-01-28",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Z-AI",
+      "accuracy": 33.4,
+      "error_margin": 2.8,
+      "hf_repo_id": "zai-org/GLM-4.7",
+      "hf_url": "https://huggingface.co/zai-org/GLM-4.7"
+    },
+    {
+      "rank": 65,
+      "agent": "Terminus 2",
+      "model": "MiniMax M2",
+      "date": "2025-11-01",
+      "agent_org": "Terminal-Bench",
+      "model_org": "MiniMax",
+      "accuracy": 30.0,
+      "error_margin": 2.7,
+      "hf_repo_id": "MiniMaxAI/MiniMax-M2",
+      "hf_url": "https://huggingface.co/MiniMaxAI/MiniMax-M2"
+    },
+    {
+      "rank": 68,
+      "agent": "Terminus 2",
+      "model": "MiniMax M2.1",
+      "date": "2025-12-23",
+      "agent_org": "Terminal-Bench",
+      "model_org": "MiniMax",
+      "accuracy": 29.2,
+      "error_margin": 2.9,
+      "hf_repo_id": "MiniMaxAI/MiniMax-M2.1",
+      "hf_url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1"
+    },
+    {
+      "rank": 70,
+      "agent": "Terminus 2",
+      "model": "Kimi K2 Instruct",
+      "date": "2025-11-01",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Moonshot AI",
+      "accuracy": 27.8,
+      "error_margin": 2.5,
+      "hf_repo_id": "moonshotai/Kimi-K2-Instruct",
+      "hf_url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+    },
+    {
+      "rank": 79,
+      "agent": "Terminus 2",
+      "model": "GLM 4.6",
+      "date": "2025-11-01",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Z.ai",
+      "accuracy": 24.5,
+      "error_margin": 2.4,
+      "hf_repo_id": "zai-org/GLM-4.6",
+      "hf_url": "https://huggingface.co/zai-org/GLM-4.6"
+    },
+    {
+      "rank": 81,
+      "agent": "Terminus 2",
+      "model": "Qwen 3 Coder 480B",
+      "date": "2025-11-01",
+      "agent_org": "Terminal-Bench",
+      "model_org": "Alibaba",
+      "accuracy": 23.9,
+      "error_margin": 2.8,
+      "hf_repo_id": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+      "hf_url": "https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct"
+    }
+  ]
+}
