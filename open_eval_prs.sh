@@ -42,6 +42,13 @@ if [[ ! -f "$MATCHED_REPOS" ]]; then
     exit 1
 fi
 
+for cmd in curl hf python3; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "ERROR: Required command not found: $cmd" >&2
+        exit 1
+    fi
+done
+
 SOURCE_URL=$(python3 -c "import json; print(json.load(open('$MATCHED_REPOS'))['source'])")
 NUM_ENTRIES=$(python3 -c "import json; print(len(json.load(open('$MATCHED_REPOS'))['entries']))")
 
@@ -63,14 +70,23 @@ for i in $(seq 0 $((NUM_ENTRIES - 1))); do
     # Check for existing open PRs.
     # Only block if a Terminal-Bench PR already exists; unrelated open PRs should
     # not prevent proposing or creating a new eval-result PR.
-    OPEN_PRS=$(curl -s "https://huggingface.co/api/models/$REPO_ID/discussions" \
-        | python3 -c "
+    if ! DISCUSSIONS_JSON=$(curl -fsS "https://huggingface.co/api/models/$REPO_ID/discussions"); then
+        echo "ERROR: Failed to fetch discussions for $REPO_ID" >&2
+        FAILED_COUNT=$((FAILED_COUNT + 1))
+        continue
+    fi
+
+    if ! OPEN_PRS=$(echo "$DISCUSSIONS_JSON" | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 prs = [d for d in data.get('discussions', []) if d.get('status') == 'open' and d.get('isPullRequest')]
 for pr in prs:
     print(f\"  #{pr['num']}: {pr['title']}\")
-" 2>/dev/null || true)
+" 2>/dev/null); then
+        echo "ERROR: Failed to parse discussions response for $REPO_ID" >&2
+        FAILED_COUNT=$((FAILED_COUNT + 1))
+        continue
+    fi
 
     TERMINAL_BENCH_OPEN_PRS=$(echo "$OPEN_PRS" | grep -Ei "terminal[-_ ]?bench" || true)
 

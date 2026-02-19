@@ -95,7 +95,7 @@ This workflow is designed to run as a scheduled HF Job in namespace `burtenshaw`
 hf jobs run python:3.11-slim bash -lc '
 set -euo pipefail
 apt-get update
-apt-get install -y --no-install-recommends git ca-certificates
+apt-get install -y --no-install-recommends git ca-certificates curl
 python -m pip install --no-cache-dir --upgrade pip uv
 git clone --depth 1 https://github.com/burtenshaw/harbor-community-evals.git /workspace/harbor-community-evals
 cd /workspace/harbor-community-evals
@@ -109,7 +109,7 @@ DRY_RUN=1 bash jobs/run_terminal_bench_job.sh
 hf jobs scheduled run '0 9 * * 1' python:3.11-slim bash -lc '
 set -euo pipefail
 apt-get update
-apt-get install -y --no-install-recommends git ca-certificates
+apt-get install -y --no-install-recommends git ca-certificates curl
 python -m pip install --no-cache-dir --upgrade pip uv
 git clone --depth 1 https://github.com/burtenshaw/harbor-community-evals.git /workspace/harbor-community-evals
 cd /workspace/harbor-community-evals
