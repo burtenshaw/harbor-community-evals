@@ -9,6 +9,8 @@ cd "$REPO_ROOT"
 echo "INFO: Syncing Python environment"
 uv sync --frozen
 
+export PATH="$REPO_ROOT/.venv/bin:$PATH"
+
 echo "INFO: Collecting Terminal-Bench scores"
 uv run python collect_scores.py
 
