@@ -39,6 +39,7 @@ MODEL_ORG_LOOKUP = {
     "Z.ai": "zai-org",
     "MiniMax": "minimaxai",
     "Alibaba": "Qwen",
+    "DeepSeek": "deepseek-ai",
 }
 
 # ---------------------------------------------------------------------------

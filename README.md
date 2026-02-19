@@ -65,9 +65,90 @@ Create the PRs for real:
 ```
 
 The script:
-- Checks each model repo for existing open PRs and skips if any are found.
+- Checks each model repo for existing **Terminal-Bench** PRs and skips only those.
 - Uploads a `.eval_results/terminal_bench.yaml` file via `hf upload --create-pr`.
-- The YAML follows the Hugging Face [eval results format](https://huggingface.co/docs/hub/en/model-cards#evaluation-results), referencing the `harborframework/terminal-bench` dataset.
+- The YAML follows the Hugging Face [eval results format](https://huggingface.co/docs/hub/en/model-cards#evaluation-results), referencing the `harborframework/terminal-bench-2.0` dataset.
+- Resolves auth token in this order: `HF_TOKEN` environment variable, then local `.env`.
+- Prints a per-run summary (`processed`, `skipped`, `created`, `failed`) at the end.
+
+### 3. Run as a single job entrypoint
+
+For local simulation of the scheduled job:
+
+```bash
+DRY_RUN=1 bash jobs/run_terminal_bench_job.sh
+```
+
+To create PRs for real:
+
+```bash
+bash jobs/run_terminal_bench_job.sh
+```
+
+## Deploy to Hugging Face Jobs
+
+This workflow is designed to run as a scheduled HF Job in namespace `burtenshaw`.
+
+### One-off validation job (dry run)
+
+```bash
+hf jobs run python:3.11-slim bash -lc '
+set -euo pipefail
+apt-get update
+apt-get install -y --no-install-recommends git ca-certificates
+python -m pip install --no-cache-dir --upgrade pip uv
+git clone --depth 1 https://github.com/burtenshaw/harbor-community-evals.git /workspace/harbor-community-evals
+cd /workspace/harbor-community-evals
+DRY_RUN=1 bash jobs/run_terminal_bench_job.sh
+' --namespace burtenshaw --secrets HF_TOKEN --flavor cpu-basic --timeout 45m
+```
+
+### Scheduled production job (weekly, Monday 09:00 UTC)
+
+```bash
+hf jobs scheduled run '0 9 * * 1' python:3.11-slim bash -lc '
+set -euo pipefail
+apt-get update
+apt-get install -y --no-install-recommends git ca-certificates
+python -m pip install --no-cache-dir --upgrade pip uv
+git clone --depth 1 https://github.com/burtenshaw/harbor-community-evals.git /workspace/harbor-community-evals
+cd /workspace/harbor-community-evals
+bash jobs/run_terminal_bench_job.sh
+' --namespace burtenshaw --secrets HF_TOKEN --flavor cpu-basic --timeout 45m --no-concurrency
+```
+
+## Operations Runbook
+
+List scheduled jobs:
+
+```bash
+hf jobs scheduled ps --namespace burtenshaw
+```
+
+Inspect scheduled job config:
+
+```bash
+hf jobs scheduled inspect <scheduled_job_id> --namespace burtenshaw
+```
+
+List recent job runs:
+
+```bash
+hf jobs ps -a --namespace burtenshaw
+```
+
+Read run logs:
+
+```bash
+hf jobs logs <job_id> --namespace burtenshaw
+```
+
+Pause and resume a schedule:
+
+```bash
+hf jobs scheduled suspend <scheduled_job_id> --namespace burtenshaw
+hf jobs scheduled resume <scheduled_job_id> --namespace burtenshaw
+```
 
 ### Adding a new model org
 
@@ -81,6 +162,7 @@ MODEL_ORG_LOOKUP = {
     "Z.ai": "zai-org",
     "MiniMax": "minimaxai",
     "Alibaba": "Qwen",
+    "DeepSeek": "deepseek-ai",
     # Add new orgs here:
     # "Leaderboard Org Name": "hf-org-slug",
 }
